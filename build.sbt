@@ -15,3 +15,10 @@ coverageEnabled in Test := true
 coverageMinimum := 60
 coverageFailOnMinimum := true
 parallelExecution in Test := false
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
+
+mainClass in assembly := Some("au.com.kata.Main")
