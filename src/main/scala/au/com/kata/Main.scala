@@ -1,0 +1,10 @@
+package au.com.kata
+
+class Main {
+
+  def main(args: Array[String]): Unit = {
+    println("Hello !!")
+
+  }
+
+}
