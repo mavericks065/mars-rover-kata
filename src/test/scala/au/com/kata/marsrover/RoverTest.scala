@@ -9,7 +9,7 @@ class RoverTest extends Specification {
       "belong to a plateau" in {
         // GIVEN
         val expectedPlateau = Plateau(5,5)
-        val initialPosition = Position(1,1, Direction("N"))
+        val initialPosition = Position(1,1, Directions.apply("N"))
 
         // WHEN
         val rover = Rover(initialPosition, expectedPlateau)
@@ -21,7 +21,7 @@ class RoverTest extends Specification {
       "have the same position than the instantiated positions given" in {
         // GIVEN
         val plateau = Plateau(5,5)
-        val expectedPosition = Position(1,1, Direction("N"))
+        val expectedPosition = Position(1,1, Directions.apply("N"))
 
         // WHEN
         val rover = Rover(expectedPosition, plateau)
@@ -39,7 +39,7 @@ class RoverTest extends Specification {
     "move vertically for the command M" in {
       //GIVEN
       val plateau = Plateau(5,5)
-      val initialPosition = Position(1,1, Direction("N"))
+      val initialPosition = Position(1,1, Directions.apply("N"))
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
@@ -51,7 +51,7 @@ class RoverTest extends Specification {
     "turn left for the command L and head WEST" in {
       //GIVEN
       val plateau = Plateau(5,5)
-      val initialPosition = Position(1,1, Direction("N"))
+      val initialPosition = Position(1,1, Directions.apply("N"))
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
@@ -63,7 +63,7 @@ class RoverTest extends Specification {
     "turn right for the command R and head EAST" in {
       //GIVEN
       val plateau = Plateau(5,5)
-      val initialPosition = Position(1,1, Direction("N"))
+      val initialPosition = Position(1,1, Directions.apply("N"))
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
@@ -72,10 +72,10 @@ class RoverTest extends Specification {
       // THEN
       result must_== "1 1 E"
     }
-    "follow should not receive different directions than the cardinal points" in {
+    "follow should not receive different Directions.apply than the cardinal points" in {
       //GIVEN
       val plateau = Plateau(5,5)
-      val initialPosition = Position(1,1, Direction("N"))
+      val initialPosition = Position(1,1, Directions.apply("N"))
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
@@ -84,7 +84,7 @@ class RoverTest extends Specification {
     "should not return a position outside the plateau" in {
       //GIVEN
       val plateau = Plateau(5,5)
-      val initialPosition = Position(1,1, Direction("N"))
+      val initialPosition = Position(1,1, Directions.apply("N"))
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
@@ -97,7 +97,7 @@ class RoverTest extends Specification {
     "move vertically (but decrease on y axis) for the command M" in {
       //GIVEN
       val plateau = Plateau(5,5)
-      val initialPosition = Position(1,1, Direction("S"))
+      val initialPosition = Position(1,1, Directions.apply("S"))
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
@@ -109,7 +109,7 @@ class RoverTest extends Specification {
     "turn left for the command L and head EAST" in {
       //GIVEN
       val plateau = Plateau(5,5)
-      val initialPosition = Position(1,1, Direction("S"))
+      val initialPosition = Position(1,1, Directions.apply("S"))
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
@@ -121,7 +121,7 @@ class RoverTest extends Specification {
     "turn right for the command R and head WEST" in {
       //GIVEN
       val plateau = Plateau(5,5)
-      val initialPosition = Position(1,1, Direction("S"))
+      val initialPosition = Position(1,1, Directions.apply("S"))
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
@@ -137,7 +137,7 @@ class RoverTest extends Specification {
     "move horizontally (but negatively on x axis) for the command M" in {
       //GIVEN
       val plateau = Plateau(5,5)
-      val initialPosition = Position(1,1, Direction("W"))
+      val initialPosition = Position(1,1, Directions.apply("W"))
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
@@ -149,7 +149,7 @@ class RoverTest extends Specification {
     "turn left for the command L and head SOUTH" in {
       //GIVEN
       val plateau = Plateau(5,5)
-      val initialPosition = Position(1,1, Direction("W"))
+      val initialPosition = Position(1,1, Directions.apply("W"))
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
@@ -161,7 +161,7 @@ class RoverTest extends Specification {
     "turn right for the command R and head NORTH" in {
       //GIVEN
       val plateau = Plateau(5,5)
-      val initialPosition = Position(1,1, Direction("W"))
+      val initialPosition = Position(1,1, Directions.apply("W"))
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
@@ -176,7 +176,7 @@ class RoverTest extends Specification {
     "move horizontally for the command M" in {
       //GIVEN
       val plateau = Plateau(5,5)
-      val initialPosition = Position(1,1, Direction("E"))
+      val initialPosition = Position(1,1, Directions.apply("E"))
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
@@ -188,7 +188,7 @@ class RoverTest extends Specification {
     "turn left for the command L and head NORTH" in {
       //GIVEN
       val plateau = Plateau(5,5)
-      val initialPosition = Position(1,1, Direction("E"))
+      val initialPosition = Position(1,1, Directions.apply("E"))
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
@@ -200,7 +200,7 @@ class RoverTest extends Specification {
     "turn right for the command R and head SOUTH" in {
       //GIVEN
       val plateau = Plateau(5,5)
-      val initialPosition = Position(1,1, Direction("E"))
+      val initialPosition = Position(1,1, Directions.apply("E"))
       val rover = Rover(initialPosition, plateau)
 
       // WHEN

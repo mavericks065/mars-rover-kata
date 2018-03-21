@@ -5,7 +5,7 @@ import java.nio.charset.Charset
 import java.nio.file.{Files, Paths}
 import java.util.stream
 
-import au.com.kata.marsrover.{Direction, Plateau, Position, Rover}
+import au.com.kata.marsrover._
 
 import scala.util.Try
 
@@ -28,7 +28,7 @@ object Main {
       }
       if (i == 1) {
         val roverPositionLine = line.split(" ")
-        roverPosition = Position(roverPositionLine(0).toInt, roverPositionLine(1).toInt, Direction(roverPositionLine(2)))
+        roverPosition = Position(roverPositionLine(0).toInt, roverPositionLine(1).toInt, Directions.apply(roverPositionLine(2)))
         rover = Rover(roverPosition, plateau)
       }
       if (i == 2) {
