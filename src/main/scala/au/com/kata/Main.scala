@@ -21,19 +21,17 @@ object Main {
     var plateau: Plateau = null
 
     inputLines.forEach(line => {
-      if (i > 2) i = 1
-      if (i == 0) {
-        val plateauLine = line.split(" ")
-        plateau = Plateau(plateauLine(0).toInt, plateauLine(1).toInt)
-      }
-      if (i == 1) {
-        val roverPositionLine = line.split(" ")
-        roverPosition = Position(roverPositionLine(0).toInt, roverPositionLine(1).toInt, Directions.apply(roverPositionLine(2)))
-        rover = Rover(roverPosition, plateau)
-      }
-      if (i == 2) {
-        val result = rover.executeCommands(line)
-        printWriter.println(result)
+      i match {
+        case 0 =>
+          val plateauLine = line.split(" ")
+          plateau = Plateau(plateauLine(0).toInt, plateauLine(1).toInt)
+        case value if value % 2 == 0 =>
+          val result = rover.executeCommands(line)
+          printWriter.println(result)
+        case _ =>
+          val roverPositionLine = line.split(" ")
+          roverPosition = Position(roverPositionLine(0).toInt, roverPositionLine(1).toInt, Directions.apply(roverPositionLine(2)))
+          rover = Rover(roverPosition, plateau)
       }
       i += 1
     })

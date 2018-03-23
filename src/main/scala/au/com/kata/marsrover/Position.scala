@@ -11,11 +11,11 @@ case class Position(x: Int, y: Int, heading: Direction) {
 
   def turnLeft = Position(x, y, newDirectionFor(heading.leftCardinal))
 
-  def move = heading.currentCardinal match {
-    case "N" => Position(x, y + 1, heading)
-    case "S" => Position(x, y - 1, heading)
-    case "W" => Position(x - 1, y, heading)
-    case "E" => Position(x + 1, y, heading)
+  def move = heading match {
+    case North => Position(x, y + 1, heading)
+    case South => Position(x, y - 1, heading)
+    case West => Position(x - 1, y, heading)
+    case East => Position(x + 1, y, heading)
   }
 
   override def toString = s"$x $y ${heading.currentCardinal}"
