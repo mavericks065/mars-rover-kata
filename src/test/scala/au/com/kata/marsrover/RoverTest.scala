@@ -43,7 +43,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("M")
+      val result = rover.executeCommands("M").right.get
 
       // THEN
       result must_== "1 2 N"
@@ -55,7 +55,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("L")
+      val result = rover.executeCommands("L").right.get
 
       // THEN
       result must_== "1 1 W"
@@ -67,7 +67,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("R")
+      val result = rover.executeCommands("R").right.get
 
       // THEN
       result must_== "1 1 E"
@@ -79,7 +79,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      rover.executeCommands("Q") must throwA[RoverCommandException]
+      rover.executeCommands("Q").left.get must throwA[RoverCommandException]
     }
     "should not return a position outside the plateau" in {
       //GIVEN
@@ -88,7 +88,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      rover.executeCommands("MMMMMMM") must throwA[RoverPlateauException]
+      rover.executeCommands("MMMMMMM").left.get must throwA[RoverPlateauException]
     }
   }
 
@@ -101,7 +101,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("M")
+      val result = rover.executeCommands("M").right.get
 
       // THEN
       result must_== "1 0 S"
@@ -113,7 +113,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("L")
+      val result = rover.executeCommands("L").right.get
 
       // THEN
       result must_== "1 1 E"
@@ -125,7 +125,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("R")
+      val result = rover.executeCommands("R").right.get
 
       // THEN
       result must_== "1 1 W"
@@ -141,7 +141,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("M")
+      val result = rover.executeCommands("M").right.get
 
       // THEN
       result must_== "0 1 W"
@@ -153,7 +153,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("L")
+      val result = rover.executeCommands("L").right.get
 
       // THEN
       result must_== "1 1 S"
@@ -165,7 +165,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("R")
+      val result = rover.executeCommands("R").right.get
 
       // THEN
       result must_== "1 1 N"
@@ -180,7 +180,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("M")
+      val result = rover.executeCommands("M").right.get
 
       // THEN
       result must_== "2 1 E"
@@ -192,7 +192,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("L")
+      val result = rover.executeCommands("L").right.get
 
       // THEN
       result must_== "1 1 N"
@@ -204,7 +204,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("R")
+      val result = rover.executeCommands("R").right.get
 
       // THEN
       result must_== "1 1 S"

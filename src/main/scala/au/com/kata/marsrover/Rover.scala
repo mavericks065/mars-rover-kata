@@ -2,6 +2,8 @@ package au.com.kata.marsrover
 
 import org.slf4j.LoggerFactory
 
+import scala.util.Try
+
 case class Rover(initialPosition: Position, plateau: Plateau) {
 
   private val logger = LoggerFactory.getLogger(Rover.getClass)
@@ -17,23 +19,23 @@ case class Rover(initialPosition: Position, plateau: Plateau) {
     *
     * @return the position of the rover
     */
-  def executeCommands: (String) => String = commands => {
+  def executeCommands: (String) => Either[RoverException, String] = commands => {
 
     logger.info(s"Commands to execute : $commands")
-
     commands.split("").foreach {
       case "L" => currentPosition = currentPosition.turnLeft
       case "R" => currentPosition = currentPosition.turnRight
       case "M" => currentPosition = currentPosition.move
       case "" => currentPosition // do nothing
-      case _ => throw RoverCommandException()
+      case _ => Left(RoverCommandException())
     }
-    if (currentPosition.isWithinPlateau(plateau)) getPosition.toString else throw RoverPlateauException()
+    if (currentPosition.isWithinPlateau(plateau)) Right(getPosition.toString) else Left(RoverPlateauException())
   }
 }
 
 /**
   * exception handling case classes in case commands are not acceptable and rover not in plateau anymore
   */
-case class RoverCommandException() extends Exception
-case class RoverPlateauException() extends Exception
+trait RoverException extends Exception
+case class RoverCommandException() extends RoverException
+case class RoverPlateauException() extends RoverException
