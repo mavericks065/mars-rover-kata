@@ -24,7 +24,7 @@ case class Rover(position: Position, plateau: Plateau) {
         case ("L", Success(p)) => currentPosition = Try(currentPosition.get.turnLeft)
         case ("R", Success(p)) => currentPosition = Try(currentPosition.get.turnRight)
         case ("M", Success(p)) => currentPosition = Try(currentPosition.get.move)
-        case ("", Success(p)) => Try(currentPosition.get) // do nothing
+        case ("", Success(p)) => currentPosition // do nothing
         case (_, Failure(p)) => currentPosition = Failure(RoverCommandException())
         case (_, _) => currentPosition = Failure(RoverCommandException())
       }
@@ -39,7 +39,5 @@ case class Rover(position: Position, plateau: Plateau) {
   * exception handling case classes in case commands are not acceptable and rover not in plateau anymore
   */
 trait RoverException extends Exception
-
 case class RoverCommandException() extends RoverException
-
 case class RoverPlateauException() extends RoverException
