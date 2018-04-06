@@ -26,10 +26,8 @@ class RoverTest extends Specification {
         // WHEN
         val rover = Rover(expectedPosition, plateau)
 
-        println(expectedPosition.toString)
-
         // THEN
-        rover.getPosition must_== expectedPosition
+        rover.position must_== expectedPosition
       }
     }
   }
@@ -43,10 +41,10 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("M").right.get
+      val result = rover.executeCommands("M").get
 
       // THEN
-      result must_== "1 2 N"
+      result.position.toString must_== "1 2 N"
     }
     "turn left for the command L and head WEST" in {
       //GIVEN
@@ -55,10 +53,10 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("L").right.get
+      val result = rover.executeCommands("L").get
 
       // THEN
-      result must_== "1 1 W"
+      result.position.toString must_== "1 1 W"
     }
     "turn right for the command R and head EAST" in {
       //GIVEN
@@ -67,10 +65,10 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("R").right.get
+      val result = rover.executeCommands("R").get
 
       // THEN
-      result must_== "1 1 E"
+      result.position.toString must_== "1 1 E"
     }
     "follow should not receive different Directions.apply than the cardinal points" in {
       //GIVEN
@@ -79,7 +77,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      rover.executeCommands("Q").left.get must throwA[RoverCommandException]
+      rover.executeCommands("Q").get must throwA[RoverCommandException]
     }
     "should not return a position outside the plateau" in {
       //GIVEN
@@ -88,7 +86,7 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      rover.executeCommands("MMMMMMM").left.get must throwA[RoverPlateauException]
+      rover.executeCommands("MMMMMMM").get must throwA[RoverPlateauException]
     }
   }
 
@@ -101,10 +99,10 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("M").right.get
+      val result = rover.executeCommands("M").get
 
       // THEN
-      result must_== "1 0 S"
+      result.position.toString must_== "1 0 S"
     }
     "turn left for the command L and head EAST" in {
       //GIVEN
@@ -113,10 +111,10 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("L").right.get
+      val result = rover.executeCommands("L").get
 
       // THEN
-      result must_== "1 1 E"
+      result.position.toString must_== "1 1 E"
     }
     "turn right for the command R and head WEST" in {
       //GIVEN
@@ -125,10 +123,10 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("R").right.get
+      val result = rover.executeCommands("R").get
 
       // THEN
-      result must_== "1 1 W"
+      result.position.toString must_== "1 1 W"
     }
   }
 
@@ -141,10 +139,10 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("M").right.get
+      val result = rover.executeCommands("M").get
 
       // THEN
-      result must_== "0 1 W"
+      result.position.toString must_== "0 1 W"
     }
     "turn left for the command L and head SOUTH" in {
       //GIVEN
@@ -153,10 +151,10 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("L").right.get
+      val result = rover.executeCommands("L").get
 
       // THEN
-      result must_== "1 1 S"
+      result.position.toString must_== "1 1 S"
     }
     "turn right for the command R and head NORTH" in {
       //GIVEN
@@ -165,10 +163,10 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("R").right.get
+      val result = rover.executeCommands("R").get
 
       // THEN
-      result must_== "1 1 N"
+      result.position.toString must_== "1 1 N"
     }
   }
   "Given a Rover with a position heading EAST" should {
@@ -180,10 +178,10 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("M").right.get
+      val result = rover.executeCommands("M").get
 
       // THEN
-      result must_== "2 1 E"
+      result.position.toString must_== "2 1 E"
     }
     "turn left for the command L and head NORTH" in {
       //GIVEN
@@ -192,10 +190,10 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("L").right.get
+      val result = rover.executeCommands("L").get
 
       // THEN
-      result must_== "1 1 N"
+      result.position.toString must_== "1 1 N"
     }
     "turn right for the command R and head SOUTH" in {
       //GIVEN
@@ -204,10 +202,10 @@ class RoverTest extends Specification {
       val rover = Rover(initialPosition, plateau)
 
       // WHEN
-      val result = rover.executeCommands("R").right.get
+      val result = rover.executeCommands("R").get
 
       // THEN
-      result must_== "1 1 S"
+      result.position.toString must_== "1 1 S"
     }
   }
 }

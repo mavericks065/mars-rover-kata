@@ -2,34 +2,36 @@ package au.com.kata.marsrover
 
 import org.slf4j.LoggerFactory
 
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 
-case class Rover(initialPosition: Position, plateau: Plateau) {
+case class Rover(position: Position, plateau: Plateau) {
 
   private val logger = LoggerFactory.getLogger(Rover.getClass)
-  private var currentPosition = initialPosition
-
-  /**
-    * @return the currentPosition of the rover : x, y, heading direction
-    */
-  def getPosition = currentPosition
 
   /**
     * execute chain of commands send to the rover
     *
     * @return the position of the rover
     */
-  def executeCommands: (String) => Either[RoverException, String] = commands => {
+  def executeCommands: (String) => Try[Rover] = commands => {
 
     logger.info(s"Commands to execute : $commands")
-    commands.split("").foreach {
-      case "L" => currentPosition = currentPosition.turnLeft
-      case "R" => currentPosition = currentPosition.turnRight
-      case "M" => currentPosition = currentPosition.move
-      case "" => currentPosition // do nothing
-      case _ => Left(RoverCommandException())
+
+    var currentPosition = Try(position)
+
+    commands.split("").foreach { cmd =>
+      (cmd, currentPosition) match {
+        case ("L", Success(p)) => currentPosition = Try(currentPosition.get.turnLeft)
+        case ("R", Success(p)) => currentPosition = Try(currentPosition.get.turnRight)
+        case ("M", Success(p)) => currentPosition = Try(currentPosition.get.move)
+        case ("", Success(p)) => Try(currentPosition.get) // do nothing
+        case (_, Failure(p)) => currentPosition = Failure(RoverCommandException())
+        case (_, _) => currentPosition = Failure(RoverCommandException())
+      }
     }
-    if (currentPosition.isWithinPlateau(plateau)) Right(getPosition.toString) else Left(RoverPlateauException())
+    if (currentPosition.isSuccess && currentPosition.get.isWithinPlateau(plateau)) Success(Rover(currentPosition.get, plateau))
+    else if (currentPosition.isFailure) Failure(currentPosition.failed.get)
+    else Failure(RoverPlateauException())
   }
 }
 
@@ -37,5 +39,7 @@ case class Rover(initialPosition: Position, plateau: Plateau) {
   * exception handling case classes in case commands are not acceptable and rover not in plateau anymore
   */
 trait RoverException extends Exception
+
 case class RoverCommandException() extends RoverException
+
 case class RoverPlateauException() extends RoverException

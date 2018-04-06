@@ -26,11 +26,7 @@ object Main {
           val plateauLine = line.split(" ")
           plateau = Plateau(plateauLine(0).toInt, plateauLine(1).toInt)
         case value if value % 2 == 0 =>
-          val result = rover.executeCommands(line) match  {
-            case Right(s) => s
-            case Left(e) => throw e
-          }
-          printWriter.println(result)
+          printWriter.println(rover.executeCommands(line).get)
         case _ =>
           val roverPositionLine = line.split(" ")
           roverPosition = Position(roverPositionLine(0).toInt, roverPositionLine(1).toInt, Directions.apply(roverPositionLine(2)))
