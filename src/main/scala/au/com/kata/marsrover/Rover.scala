@@ -17,7 +17,7 @@ case class Rover(position: Position, plateau: Plateau) {
   def executeCommands: (String) => Try[Rover] = commands => {
 
     @tailrec
-    def loopOnCommands(commands: List[String], position: Try[Position]): Try[Position] = {
+    def loopOnCommands(commands: Array[String], position: Try[Position]): Try[Position] = {
       if (position.isFailure) position
       else if (commands.tail.isEmpty) position
       else {
@@ -34,7 +34,7 @@ case class Rover(position: Position, plateau: Plateau) {
 
     logger.info(s"Commands to execute : $commands")
 
-    val currentPosition = loopOnCommands(commands.split(" ").toList, Try(position))
+    val currentPosition = loopOnCommands(commands.split(" "), Try(position))
 
     if (currentPosition.isSuccess && currentPosition.get.isWithinPlateau(plateau)) Success(Rover(currentPosition.get, plateau))
     else if (currentPosition.isFailure) Failure(currentPosition.failed.get)
