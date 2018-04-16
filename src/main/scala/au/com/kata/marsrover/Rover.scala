@@ -19,22 +19,22 @@ case class Rover(position: Position, plateau: Plateau) {
     @tailrec
     def loopOnCommands(commands: Array[String], position: Try[Position]): Try[Position] = {
       if (position.isFailure) position
-      else if (commands.tail.isEmpty) position
+      else if (commands.length == 0) position
       else {
-        val currentPosition = (commands.head, position) match {
-          case ("L", Success(p)) => Try(position.get.turnLeft)
-          case ("R", Success(p)) => Try(position.get.turnRight)
-          case ("M", Success(p)) => Try(position.get.move)
+        val currentPosition = (commands(0), position) match {
+          case ("L", Success(p)) => Try(p.turnLeft)
+          case ("R", Success(p)) => Try(p.turnRight)
+          case ("M", Success(p)) => Try(p.move)
           case ("", Success(p)) => Success(p) // do nothing
           case (_, _) => Failure(RoverCommandException())
         }
-        loopOnCommands(commands.tail, currentPosition)
+        loopOnCommands(commands.drop(1), currentPosition)
       }
     }
 
     logger.info(s"Commands to execute : $commands")
 
-    val currentPosition = loopOnCommands(commands.split(" "), Try(position))
+    val currentPosition = loopOnCommands(commands.split(""), Success(position))
 
     if (currentPosition.isSuccess && currentPosition.get.isWithinPlateau(plateau)) Success(Rover(currentPosition.get, plateau))
     else if (currentPosition.isFailure) Failure(currentPosition.failed.get)
