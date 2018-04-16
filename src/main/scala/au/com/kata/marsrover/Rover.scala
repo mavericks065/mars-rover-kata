@@ -2,6 +2,7 @@ package au.com.kata.marsrover
 
 import org.slf4j.LoggerFactory
 
+import scala.annotation.tailrec
 import scala.util.{Failure, Success, Try}
 
 case class Rover(position: Position, plateau: Plateau) {
@@ -15,20 +16,26 @@ case class Rover(position: Position, plateau: Plateau) {
     */
   def executeCommands: (String) => Try[Rover] = commands => {
 
-    logger.info(s"Commands to execute : $commands")
-
-    var currentPosition = Try(position)
-
-    commands.split("").foreach { cmd =>
-      (cmd, currentPosition) match {
-        case ("L", Success(p)) => currentPosition = Try(currentPosition.get.turnLeft)
-        case ("R", Success(p)) => currentPosition = Try(currentPosition.get.turnRight)
-        case ("M", Success(p)) => currentPosition = Try(currentPosition.get.move)
-        case ("", Success(p)) => currentPosition // do nothing
-        case (_, Failure(p)) => currentPosition = Failure(RoverCommandException())
-        case (_, _) => currentPosition = Failure(RoverCommandException())
+    @tailrec
+    def loopOnCommands(commands: List[String], position: Try[Position]): Try[Position] = {
+      if (position.isFailure) position
+      else if (commands.tail.isEmpty) position
+      else {
+        val currentPosition = (commands.head, position) match {
+          case ("L", Success(p)) => Try(position.get.turnLeft)
+          case ("R", Success(p)) => Try(position.get.turnRight)
+          case ("M", Success(p)) => Try(position.get.move)
+          case ("", Success(p)) => Success(p) // do nothing
+          case (_, _) => Failure(RoverCommandException())
+        }
+        loopOnCommands(commands.tail, currentPosition)
       }
     }
+
+    logger.info(s"Commands to execute : $commands")
+
+    val currentPosition = loopOnCommands(commands.split(" ").toList, Try(position))
+
     if (currentPosition.isSuccess && currentPosition.get.isWithinPlateau(plateau)) Success(Rover(currentPosition.get, plateau))
     else if (currentPosition.isFailure) Failure(currentPosition.failed.get)
     else Failure(RoverPlateauException())
